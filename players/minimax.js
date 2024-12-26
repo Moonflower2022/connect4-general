@@ -92,7 +92,7 @@ function minimax(
 function minimaxAgent(game) {
     const startTime = Date.now()
     const minimaxResult = minimax(
-        12,
+        10,
         new MinimaxConnect4(game.getMinimaxStartState())
     )
     console.log(`best score: ${minimaxResult[0]}`)

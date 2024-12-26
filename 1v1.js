@@ -55,4 +55,4 @@ function runMatch(agent1, agent2) {
     return [game.getWinner(), agent1SpentTime / 1000, agent2SpentTime / 1000]
 }
 
-const allAgents = [monteCarloTreeSearchAgent, minimaxAgent, randomAgent]
+const allAgents = [monteCarloTreeSearchAgent, minimaxAgent, randomAgent, copyCatAgent]
