@@ -1,0 +1,95 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#game-board {
+    display: grid;
+    grid-template-rows: repeat(6, 50px);
+    grid-template-columns: repeat(7, 50px);
+    gap: 5px;
+    background-color: #0055a4;
+    padding: 10px;
+    border-radius: 10px;
+    position: relative;
+    margin-bottom: 20px; /* Add space between board and stats */
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cell:not(.red):not(.yellow):hover {
+    background-color: #000000
+}
+
+.cell.red {
+    background-color: red;
+}
+
+.cell.yellow {
+    background-color: yellow;
+}
+
+.win-line {
+    position: absolute;
+    height: 4px;
+    background-color: #000;
+    transform-origin: left center;
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    pointer-events: none;
+    z-index: 1;
+}
+
+#bot-status-container {
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.status-label {
+    color: #2c3e50;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    padding: 8px;
+    background-color: white;
+    border-radius: 4px;
+}
+
+.stat-label {
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+.stat-value {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2c3e50;
+}

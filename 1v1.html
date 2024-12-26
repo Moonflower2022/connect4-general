@@ -1,0 +1,107 @@
+  <!DOCTYPE html>
+  <html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect 4</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+
+  <body>
+    <div id="game-board"></div>
+    <div id="bot-status-container">
+      <div class="status-label">Monte Carlo Tree Search vs. Minimax</div>
+      <div class="stat-row">
+        <span class="stat-label">Win Rate:</span>
+        <span id="win-rate" class="stat-value">0%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Total Games:</span>
+        <span id="simulation-count" class="stat-value">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label" id="win-count-label">MCTS Score:</span>
+        <span id="win-count" class="stat-value">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label" id="agent1-time-label">MCTS Time (s):</span>
+        <span id="agent1-time" class="stat-value">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label" id="agent2-time-label">Minimax Time (s):</span>
+        <span id="agent2-time" class="stat-value">0</span>
+      </div>
+    </div>
+    <script src="utils.js"></script>
+    <script src="games/connect4.js"></script>
+    <script src="games/minimax_connect4.js"></script>
+    <script src="games/mcts_connect4.js"></script>
+    <script src="players/mcts.js"></script>
+    <script src="players/minimax.js"></script>
+    <script src="players/random.js"></script>
+    <script src="players/copy_cat.js"></script>
+    <script src="game_visuals.js"></script>
+    <script src="1v1.js"></script>
+    <script>
+      function initWebWorker() {
+        if (window.Worker) {
+          worker = new Worker("worker.js")
+
+          worker.onmessage = function (message) {
+            const [result, agent1SpentTime, agent2SpentTime] = message.data
+            let winCount = parseFloat(winCountDiv.innerHTML)
+            let simulationCount = parseInt(simulationCountDiv.innerHTML)
+            let agent1TotalTime = parseFloat(agent1TimeDiv.innerHTML)
+            let agent2TotalTime = parseFloat(agent2TimeDiv.innerHTML)
+
+            winCount += { true: 1, null: 0.5, false: 0 }[result]
+            simulationCount++
+            agent1TotalTime += agent1SpentTime
+            agent2TotalTime += agent2SpentTime
+
+            const winRate = (winCount / simulationCount * 100).toFixed(1)
+
+            winRateDiv.innerHTML = `${winRate}%`
+            winCountDiv.innerHTML = winCount.toString()
+            simulationCountDiv.innerHTML = simulationCount.toString()
+            agent1TimeDiv.innerHTML = agent1TotalTime.toFixed(3).toString()
+            agent2TimeDiv.innerHTML = agent2TotalTime.toFixed(3).toString()
+          }
+        } else {
+          console.log("Your browser does not support web workers, defaulting to running script on main thread.")
+        }
+      }
+
+      const agent1Index = 0
+      const agent2Index = 2
+
+      const agent1 = allAgents[agent1Index]
+      const agent2 = allAgents[agent2Index]
+
+      document.getElementsByClassName("status-label")[0].innerHTML = `${agent1.name} v.s. ${agent2.name}`
+      document.getElementById("win-count-label").innerHTML = `${agent1.name} Score:`
+      document.getElementById("agent1-time-label").innerHTML = `${agent1.name} Time (s):`
+      document.getElementById("agent2-time-label").innerHTML = `${agent2.name} Time (s):`
+
+      runMatchWithDraw(agent1, agent2)
+
+      const winCountDiv = document.getElementById("win-count")
+      const simulationCountDiv = document.getElementById("simulation-count")
+      const winRateDiv = document.getElementById("win-rate")
+      const agent1TimeDiv = document.getElementById("agent1-time")
+      const agent2TimeDiv = document.getElementById("agent2-time")
+
+      var worker
+      initWebWorker()
+
+      const iterations = 1000
+      let currentWins = 0
+
+      for (let i = 0; i < iterations; i++) {
+        worker.postMessage([agent1Index, agent2Index])
+      }
+    </script>
+  </body>
+
+  </html>
