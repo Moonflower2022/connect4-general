@@ -1,3 +1,5 @@
+const explorationConstant = Math.sqrt(2)
+
 class Node {
     constructor(game, parent, moveMade) {
         this.game = game

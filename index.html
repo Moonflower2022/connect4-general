@@ -20,9 +20,27 @@
   <script src="players/copy_cat.js"></script>
   <script src="game_visuals.js"></script>
   <script>
+    function onclick(x) {
+      const move = parseInt(x)
+      if (game.canPlayMove(move)) {
+        game.playMove(move)
+        drawConnect4(game.state.board)
+        if (game.getTerminated() && game.getWinner() !== null) {
+          drawWinLine(game.state.winningLine, onclick=onclick)
+          return
+        }
+      }
+      const botMove = monteCarloTreeSearchAgent(game)
+      game.playMove(botMove)
+      drawConnect4(game.state.board, onclick=onclick)
+      if (game.getTerminated() && game.getWinner() !== null) {
+        drawWinLine(game.state.winningLine)
+        return
+      }
+    }
     const game = new Connect4({ height: 6, width: 7 })
     game.setStartState()
-    drawConnect4Clickable(game.state.board)
+    drawConnect4(game.state.board, onclick=onclick)
   </script>
 </body>
 
