@@ -33,8 +33,9 @@ body {
     align-items: center;
 }
 
-.cell:not(.red):not(.yellow):hover {
-    background-color: #000000
+.cell.hover-effect:hover {
+    transform: scale(1.05); /* Slight zoom effect */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3), 0 0 10px 5px rgba(146, 146, 146, 0.5); /* Glow + shadow */
 }
 
 .cell.red {

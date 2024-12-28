@@ -10,6 +10,11 @@
 
 <body>
   <div id="game-board"></div>
+  <div class="controls-container">
+    <button id="start-as-first">Start As First</button>
+    <button id="start-as-second">Start As Second</button>
+    <button id="end-game">End Game</button>
+  </div>
   <script src="utils.js"></script>
   <script src="games/connect4.js"></script>
   <script src="games/minimax_connect4.js"></script>
@@ -20,27 +25,81 @@
   <script src="players/copy_cat.js"></script>
   <script src="game_visuals.js"></script>
   <script>
+    let gameInProgress = false
+    let lastPlayedP1, lastPlayedP2, botColor
+    let selectedAgent = monteCarloTreeSearchAgent
+    function checkAndHandleGameOver() {
+      console.log(game.state)
+      if (game.getTerminated()) {
+        endGame()
+        if (game.getWinner() !== null) {
+          drawWinLine(game.state.winningLine)
+        }
+        return true
+      }
+      return false
+    }
+    function playerMove(move) {
+      if (botColor === true) {
+        lastPlayedP2 = [game.getY(move), move]
+      } else { // botColor === false
+        lastPlayedP1 = [game.getY(move), move]
+      }
+      game.playMove(move)
+      drawConnect4(game.state.board, hoverEffect = true, onclick = onclick, lastPlayedP1 = lastPlayedP1, lastPlayedP2 = lastPlayedP2)
+    }
+    function botMove() {
+      const botMove = selectedAgent(game)
+      if (botColor === true) {
+        lastPlayedP1 = [game.getY(botMove), botMove]
+      } else { // botColor === false
+        lastPlayedP2 = [game.getY(botMove), botMove]
+      }
+      game.playMove(botMove)
+      drawConnect4(game.state.board, hoverEffect = true, onclick = onclick, lastPlayedP1 = lastPlayedP1, lastPlayedP2 = lastPlayedP2)
+    }
+    function startGame() {
+      startAsFirstButton.disabled = true
+      startAsSecondButton.disabled = true
+      endGameButton.disabled = false
+      gameInProgress = true
+      game = new Connect4({ height: 6, width: 7 })
+      game.setStartState()
+      drawConnect4(game.state.board, hoverEffect = true, onclick = onclick)
+      if (botColor === true) {
+        botMove(botColor)
+      }
+    }
+    function endGame() {
+      startAsFirstButton.disabled = false
+      startAsSecondButton.disabled = false
+      endGameButton.disabled = true
+      drawConnect4(game.state.board, hoverEffect = false)
+    }
+    const startAsFirstButton = document.getElementById("start-as-first")
+    const startAsSecondButton = document.getElementById("start-as-second")
+    const endGameButton = document.getElementById("end-game")
+
+    endGameButton.disabled = true
+    startAsFirstButton.onclick = function () {
+      botColor = false
+      startGame()
+    }
+    startAsSecondButton.onclick = function () {
+      botColor = true
+      startGame()
+    }
+    endGameButton.onclick = endGame
+
     function onclick(x) {
       const move = parseInt(x)
       if (game.canPlayMove(move)) {
-        game.playMove(move)
-        drawConnect4(game.state.board)
-        if (game.getTerminated() && game.getWinner() !== null) {
-          drawWinLine(game.state.winningLine, onclick=onclick)
-          return
-        }
+        playerMove(move)
+        if (checkAndHandleGameOver()) return
       }
-      const botMove = monteCarloTreeSearchAgent(game)
-      game.playMove(botMove)
-      drawConnect4(game.state.board, onclick=onclick)
-      if (game.getTerminated() && game.getWinner() !== null) {
-        drawWinLine(game.state.winningLine)
-        return
-      }
+      botMove()
+      if (checkAndHandleGameOver()) return
     }
-    const game = new Connect4({ height: 6, width: 7 })
-    game.setStartState()
-    drawConnect4(game.state.board, onclick=onclick)
   </script>
 </body>
 
