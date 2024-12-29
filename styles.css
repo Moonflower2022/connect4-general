@@ -1,7 +1,11 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    flex-direction: column; /* Stack children vertically */
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
@@ -20,7 +24,7 @@ body {
     padding: 10px;
     border-radius: 10px;
     position: relative;
-    margin-bottom: 20px; /* Add space between board and stats */
+    margin-bottom: 20px;
 }
 
 .cell {
@@ -34,8 +38,10 @@ body {
 }
 
 .cell.hover-effect:hover {
-    transform: scale(1.05); /* Slight zoom effect */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3), 0 0 10px 5px rgba(146, 146, 146, 0.5); /* Glow + shadow */
+    transform: scale(1.05);
+    /* Slight zoom effect */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3), 0 0 10px 5px rgba(146, 146, 146, 0.5);
+    /* Glow + shadow */
 }
 
 .cell.red {
@@ -55,4 +61,8 @@ body {
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
     pointer-events: none;
     z-index: 1;
+}
+
+.last-played {
+    border: 3px solid #4caf50;
 }
