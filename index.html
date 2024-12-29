@@ -30,6 +30,13 @@
     let selectedAgent = monteCarloTreeSearchAgent
     function checkAndHandleGameOver() {
       if (game.getTerminated()) {
+        if (game.getWinner() === null) {
+          alert("It's a tie!")
+        } else if (game.getWinner() === botColor) {
+          alert("You lost!")
+        } else { // game.getWinner() === !botColor
+          alert("You won!")
+        }
         endGame()
         if (game.getWinner() !== null) {
           drawWinLine(game.state.winningLine)
