@@ -9,11 +9,17 @@ A better connect 4 website where you can play against bots implemented with gene
 
 # todo
 
-* do some ui stuff
+* ui
+  * settings
+    * thinking time for mcts
+    * search depth for minimax
   * save state
   * new game
-  * board size
-  * animations?
+  * show where your marker would be placed on the board
+  * worker for no lag
+* optimize with bit board
+  * 2^42 is only like 13 digits (not very long)
+
 
 
 
