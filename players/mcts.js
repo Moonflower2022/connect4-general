@@ -29,8 +29,7 @@ class Node {
     }
 
     simulate = () => {
-        let copiedState = this.game.copyState()
-        let copiedGame = new MonteCarloTreeSearchConnect4(copiedState)
+        let copiedGame = this.game.copy()
         while (copiedGame.getTerminated() === false) {
             let moves = copiedGame.getPossibleMoves()
             copiedGame.playMove(moves.random())
@@ -50,8 +49,7 @@ class Node {
     }
 
     addChild = () => {
-        let copiedState = this.game.copyState()
-        let newGame = new MonteCarloTreeSearchConnect4(copiedState)
+        let copiedGame = this.game.copy()
         let randomIndex = Math.floor(
             Math.random() * this.remainingPossibleIndices.length
         )
@@ -59,10 +57,10 @@ class Node {
         let move =
             this.possibleMoves[this.remainingPossibleIndices[randomIndex]]
 
-        newGame.playMove(move)
+        copiedGame.playMove(move)
         this.remainingPossibleIndices.splice(randomIndex, 1)
 
-        let newNode = new Node(newGame, this, move)
+        let newNode = new Node(copiedGame, this, move)
         this.children.push(newNode)
         this.isLeaf = false
     }
@@ -70,7 +68,7 @@ class Node {
     backpropogate(winner) {
         this.simulations++
         if (this.color === winner) {
-            this.wins++   
+            this.wins++
         } else if (winner === null) {
             this.wins += 0.5
         }
@@ -80,10 +78,10 @@ class Node {
     }
 
     bestUTC = () => {
-        return this.children.reduce((max, curr, i) => 
-            curr.UTC() > max.UTC() ? curr : max, 
+        return this.children.reduce(
+            (max, curr, i) => (curr.UTC() > max.UTC() ? curr : max),
             this.children[0]
-        );
+        )
     }
 
     UTC = () => {
@@ -91,7 +89,7 @@ class Node {
             return 1000000
         }
         const ratio = this.wins / this.simulations
-        
+
         const bonus = Math.sqrt(
             Math.log(this.parent.simulations) / this.simulations
         )
@@ -123,7 +121,10 @@ function monteCarloTreeSearchTime(
     root.children.sort((a, b) => {
         return b.wins / b.simulations - a.wins / a.simulations
     })
-    return [root.children[0].moveMade, root.children[0].wins / root.children[0].simulations]
+    return [
+        root.children[0].moveMade,
+        root.children[0].wins / root.children[0].simulations,
+    ]
 }
 
 function monteCarloTreeSearchIterations(
@@ -148,7 +149,10 @@ function monteCarloTreeSearchIterations(
     root.children.sort((a, b) => {
         return b.wins / b.simulations - a.wins / a.simulations
     })
-    return [root.children[0].moveMade, root.children[0].wins / root.children[0].simulations]
+    return [
+        root.children[0].moveMade,
+        root.children[0].wins / root.children[0].simulations,
+    ]
 }
 
 function monteCarloTreeSearchAgent(game) {
@@ -161,3 +165,4 @@ function monteCarloTreeSearchAgent(game) {
     console.log(`best node win rate: ${result[1]}`)
     return result[0]
 }
+

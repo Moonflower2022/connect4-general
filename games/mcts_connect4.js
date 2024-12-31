@@ -18,8 +18,8 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
         }
     }
 
-    copyState() {
-        return {
+    copy() {
+        return new MonteCarloTreeSearchConnect4({
             board: this.state.board.map((row) => [...row]),
             turn: this.state.turn,
             numPossibleMoves: this.state.numPossibleMoves,
@@ -28,7 +28,7 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
             winner: this.state.winner,
             width: this.state.width,
             height: this.state.height,
-        }
+        })
     }
 
     playMove(move) {
@@ -137,3 +137,4 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
         return this.state.winner
     }
 }
+
