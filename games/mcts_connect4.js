@@ -3,24 +3,9 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
         super(state)
     }
 
-    setStartState() {
-        this.state = {
-            board: new Array(this.state.height)
-                .fill(null)
-                .map(() => new Array(this.state.width).fill(null)),
-            turn: true, // default to true for p1 and false for p2
-            numPossibleMoves: this.state.width,
-            lastMove: null,
-            terminated: false,
-            winner: null,
-            width: 7,
-            height: 6,
-        }
-    }
-
     copy() {
         return new MonteCarloTreeSearchConnect4({
-            board: this.state.board.map((row) => [...row]),
+            board: this.state.board.copy(),
             turn: this.state.turn,
             numPossibleMoves: this.state.numPossibleMoves,
             lastMove: this.state.lastMove !== null ? [...this.state.lastMove] : null,
@@ -31,16 +16,45 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
         })
     }
 
+    getPossibleMoves() {
+        let possibleMoves = []
+        for (let x = 0; x < this.state.width; x++) {
+            if (this.state.board.getMarker(0, x) === null) {
+                possibleMoves.push(x)
+            }
+        }
+        return possibleMoves
+    }
+
+    getY(move) {
+        if (this.state.board.getMarker(0, move) !== null) {
+            if (this instanceof MonteCarloTreeSearchConnect4) {
+                console.warn("aorsnetnsro")
+            }
+            return -1
+        }
+        for (let y = 0; y < this.state.height; y++) {
+            if (
+                y === this.state.height - 1 ||
+                this.state.board.getMarker(y + 1, move) !== null
+            ) {
+                return y
+            }
+        }
+    }
+
     playMove(move) {
         let y = this.getY(move)
-        this.state.board[y][move] = this.state.turn
+        this.state.board.setMarker(y, move, this.state.turn)
         if (y === 0) {
             this.state.numPossibleMoves--
         }
         this.state.turn = !this.state.turn
         this.state.lastMove = [y, move]
 
+        this.state.board = bitBoardToBoard(this.state.board)
         this.state.terminated = this.checkWin()
+        this.state.board = boardToBitBoard(this.state.board)
     }
 
     checkWin() {

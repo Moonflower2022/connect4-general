@@ -1,3 +1,103 @@
+function boardToBitBoard(board) {
+    const bitBoard = new BitBoard()
+    bitBoard.setStartState(board.length, board[0].length)
+    for (let y = 0; y < board.length; y++) {
+        for (let x = 0; x < board[0].length; x++) {
+            if (board[y][x] !== null) {
+                bitBoard.setMarker(y, x, board[y][x])
+            }
+        }
+    }
+    return bitBoard
+}
+
+function bitBoardToBoard(bitBoard) {
+    const board = []
+    for (let y = 0; y < bitBoard.height; y++) {
+        board.push([])
+        for (let x = 0; x < bitBoard.width; x++) {
+            board[y].push(bitBoard.getMarker(y, x))
+        }
+    }
+    return board
+}
+
+class Mask {
+    constructor(mask, height, width) {
+        this.mask = mask
+        this.height = height
+        this.width = width
+    }
+
+    setStartState(height, width) {
+        this.mask = BigInt(0)
+        this.height = height
+        this.width = width
+    }
+
+    copy() {
+        return new Mask(this.mask, this.height, this.width)
+    }
+
+    getPositionMask(y, x) {
+        return BigInt(2 ** (y * this.width + x))
+    }
+
+    get(y, x) {
+        return this.mask & this.getPositionMask(y, x)
+    }
+
+    flip(y, x) {
+        this.mask ^= this.getPositionMask(y, x)
+    }
+}
+
+class BitBoard {
+    constructor(p1mask, p2mask, height, width) {
+        this.p1mask = p1mask
+        this.p2mask = p2mask
+        this.height = height
+        this.width = width
+    }
+
+    setStartState(height, width) {
+        this.p1mask = new Mask()
+        this.p1mask.setStartState(height, width)
+        this.p2mask = new Mask()
+        this.p2mask.setStartState(height, width)
+        this.height = height
+        this.width = width
+    }
+
+    copy() {
+        return new BitBoard(this.p1mask.copy(), this.p2mask.copy(), this.height, this.width)
+    }
+
+    getMarker(y, x) {
+        const p1maskElement = this.p1mask.get(y, x)
+        const p2maskElement = this.p2mask.get(y, x)
+        if ((p1maskElement === BigInt(0)) && (p2maskElement === BigInt(0))) {
+            return null
+        }
+        return p1maskElement ? true : false
+    }
+
+    setMarker(y, x, color) {
+        if (color === true) {
+            if (this.p1mask.get(y, x) === BigInt(1)) {
+                throw Error("eiarnto")
+            }
+            this.p1mask.flip(y, x)
+        } else {
+            // color === false
+            if (this.p2mask.get(y, x) === BigInt(1)) {
+                throw Error("eiarnto")
+            }
+            this.p2mask.flip(y, x)
+        }
+    }
+}
+
 class Connect4 {
     constructor(state) {
         this.state = state
@@ -21,7 +121,7 @@ class Connect4 {
 
     getMonteCarloTreeSearchStartState() {
         return {
-            board: this.state.board.map((row) => [...row]),
+            board: boardToBitBoard(this.state.board),
             turn: this.state.turn,
             numPossibleMoves: this.state.numPossibleMoves,
             lastMove:
@@ -46,7 +146,7 @@ class Connect4 {
 
     getMinimaxStartState() {
         return {
-            board: this.state.board.map((row) => [...row]),
+            board: getBitBoardFromBoard(this.state.board),
             turn: this.state.turn,
             numPossibleMoves: this.state.numPossibleMoves,
             pastMoves: [...this.state.pastMoves],
@@ -75,6 +175,9 @@ class Connect4 {
 
     getY(move) {
         if (this.state.board[0][move] !== null) {
+            if (this instanceof MonteCarloTreeSearchConnect4) {
+                console.warn("aorsnetnsro")
+            }
             return -1
         }
         for (let y = 0; y < this.state.height; y++) {

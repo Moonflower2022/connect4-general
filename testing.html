@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect 4</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <script src="utils.js"></script>
+    <script src="games/connect4.js"></script>
+    <script src="games/minimax_connect4.js"></script>
+    <script src="games/mcts_connect4.js"></script>
+    <script src="players/mcts.js"></script>
+    <script src="players/minimax.js"></script>
+    <script src="players/random.js"></script>
+    <script src="players/copy_cat.js"></script>
+    <script src="game_visuals.js"></script>
+    <script>
+        function runGeneralTests() {
+            const game = new Connect4({width: 7, height: 6})
+            game.setStartState()
+            const mctsGame = new MonteCarloTreeSearchConnect4(game.getMonteCarloTreeSearchStartState())
+            console.log(mctsGame.getPossibleMoves())
+        }
+    </script>
+    <button onclick="runGeneralTests()">Run Tests</button>
+</body>
+
+</html>
