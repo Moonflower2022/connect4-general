@@ -45,7 +45,7 @@ class Mask {
     }
 
     getPositionMask(y, x) {
-        return BigInt(2 ** (y * this.width + x))
+        return BigInt(1) << BigInt(y * this.width + x)
     }
 
     get(y, x) {
