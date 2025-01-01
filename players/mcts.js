@@ -156,9 +156,9 @@ function monteCarloTreeSearchIterations(
 }
 
 function monteCarloTreeSearchAgent(game) {
-    const result = monteCarloTreeSearchTime(
+    const result = monteCarloTreeSearchIterations(
         game.getMonteCarloTreeSearchStartState(),
-        1,
+        50000,
         1,
         1
     )

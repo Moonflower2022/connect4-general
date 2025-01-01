@@ -1,3 +1,8 @@
+function getAnd4(mask, stride) {
+    const and3 = mask & (mask >> BigInt(stride * 2))
+    return and3 & (and3 >> BigInt(stride))
+}
+
 function boardToBitBoard(board) {
     const bitBoard = new BitBoard()
     bitBoard.setStartState(board.length, board[0].length)
@@ -146,7 +151,7 @@ class Connect4 {
 
     getMinimaxStartState() {
         return {
-            board: getBitBoardFromBoard(this.state.board),
+            board: boardToBitBoard(this.state.board),
             turn: this.state.turn,
             numPossibleMoves: this.state.numPossibleMoves,
             pastMoves: [...this.state.pastMoves],

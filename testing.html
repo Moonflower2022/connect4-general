@@ -24,6 +24,10 @@
             game.setStartState()
             const mctsGame = new MonteCarloTreeSearchConnect4(game.getMonteCarloTreeSearchStartState())
             console.log(mctsGame.getPossibleMoves())
+            for (let i = 0; i < 6; i++) {
+                mctsGame.playMove(1)
+            }
+            console.log(mctsGame)
         }
     </script>
     <button onclick="runGeneralTests()">Run Tests</button>

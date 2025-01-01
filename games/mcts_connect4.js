@@ -49,12 +49,38 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
         if (y === 0) {
             this.state.numPossibleMoves--
         }
-        this.state.turn = !this.state.turn
         this.state.lastMove = [y, move]
+        
+        this.state.terminated = this.checkWinNew()
 
-        this.state.board = bitBoardToBoard(this.state.board)
-        this.state.terminated = this.checkWin()
-        this.state.board = boardToBitBoard(this.state.board)
+        if (this.state.terminated) {
+            if (this.state.numPossibleMoves !== 0) {
+                this.state.winner = this.state.turn
+            }
+        }
+
+        this.state.turn = !this.state.turn
+    }
+
+    checkConnect4() {
+        const relevantMask = this.state.turn ? this.state.board.p1mask.mask : this.state.board.p2mask.mask
+
+        const horizontalWin = getAnd4(relevantMask, 1) !== BigInt(0)
+        const verticalWin = getAnd4(relevantMask, this.state.width) !== BigInt(0)
+        const diagonalPositiveSlopeWin = getAnd4(relevantMask, this.state.width - 1) !== BigInt(0)
+        const diagonalNegativeSlopeWin = getAnd4(relevantMask, this.state.width + 1) !== BigInt(0)
+        return horizontalWin || verticalWin || diagonalPositiveSlopeWin || diagonalNegativeSlopeWin
+    }
+
+    checkWinNew() {
+        if (this.checkConnect4()) {
+            this.state.winner = this.state.turn
+            return true
+        }
+        if (this.state.numPossibleMoves === 0) {
+            return true
+        }
+        return false
     }
 
     checkWin() {
