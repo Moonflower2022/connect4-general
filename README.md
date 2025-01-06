@@ -22,3 +22,4 @@ A better connect 4 website where you can play against bots implemented with gene
   * new game
   * show where your marker would be placed on the board
   * worker for no lag
+* test against <https://www.npmjs.com/package/macao>
