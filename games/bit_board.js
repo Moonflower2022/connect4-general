@@ -24,7 +24,7 @@ class Long {
     }
 
     static and(long1, long2) {
-        return new Long((long1.high & long2.high) >>> 0, (long1.low & long2.low) >>> 0)
+        return new Long(long1.high & long2.high, long1.low & long2.low)
     }
 
     static or(long1, long2) {

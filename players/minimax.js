@@ -1,4 +1,4 @@
-const evalBoard = [
+const boardEvaluation = [
     [3, 4, 5, 7, 5, 4, 3],
     [4, 6, 8, 10, 8, 6, 4],
     [5, 8, 11, 13, 11, 8, 5],
@@ -6,6 +6,8 @@ const evalBoard = [
     [4, 6, 8, 10, 8, 6, 4],
     [3, 4, 5, 7, 5, 4, 3],
 ]
+
+const bitBoardEvaluation = boardEvaluation.flat()
 
 function evaluateBoard(board) {
     let sum = 0;
@@ -18,10 +20,10 @@ function evaluateBoard(board) {
                 case null:
                     break
                 case true:
-                    sum += evalBoard[y][x]
+                    sum += boardEvaluation[y][x]
                     break
                 case false:
-                    sum -= evalBoard[y][x]
+                    sum -= boardEvaluation[y][x]
             }
         }
     }
@@ -29,9 +31,30 @@ function evaluateBoard(board) {
     return sum;
 }
 
-function evaluateBitBoard(board) {
-    let sum = 0;
-    
+function evaluateBitBoard(bitBoard) {
+    return evaluateMask(bitBoard.p1mask) - evaluateMask(bitBoard.p2mask)
+}
+
+function evaluateMask(mask) {
+    let total = 0;
+    let currentBit = 1
+
+    for (let i = 0; i < 32; i++) {
+        if (mask.long.low & currentBit) {
+            total += bitBoardEvaluation[i]
+        }
+        currentBit <<= 1
+    }
+
+    currentBit = 1
+    for (let i = 32; i < 42; i++) {
+        if (mask.long.high & currentBit) {
+            total += bitBoardEvaluation[i]
+        }
+        currentBit <<= 1
+    }
+
+    return total
 }
 
 function minimax(
@@ -41,7 +64,7 @@ function minimax(
     beta = Number.POSITIVE_INFINITY
 ) {
     if (depth === 0) {
-        return [evaluateBoard(bitBoardToBoard(game.state.board)), null]
+        return [evaluateBitBoard(game.state.board), null]
     }
 
     const isMaximizingPlayer = game.state.turn
@@ -97,7 +120,7 @@ function minimax(
 function minimaxAgent(game) {
     const startTime = Date.now()
     const minimaxResult = minimax(
-        8,
+        10,
         new MinimaxConnect4(game.getMinimaxStartState())
     )
     console.log(`best score: ${minimaxResult[0]}`)
