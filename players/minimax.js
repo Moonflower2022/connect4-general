@@ -1,4 +1,4 @@
-let evalBoard = [
+const evalBoard = [
     [3, 4, 5, 7, 5, 4, 3],
     [4, 6, 8, 10, 8, 6, 4],
     [5, 8, 11, 13, 11, 8, 5],
@@ -7,7 +7,7 @@ let evalBoard = [
     [3, 4, 5, 7, 5, 4, 3],
 ]
 
-function evaluate(board) {
+function evaluateBoard(board) {
     let sum = 0;
     const height = board.length;
     const width = board[0].length;
@@ -29,6 +29,11 @@ function evaluate(board) {
     return sum;
 }
 
+function evaluateBitBoard(board) {
+    let sum = 0;
+    
+}
+
 function minimax(
     depth,
     game,
@@ -36,7 +41,7 @@ function minimax(
     beta = Number.POSITIVE_INFINITY
 ) {
     if (depth === 0) {
-        return [evaluate(game.state.board), null]
+        return [evaluateBoard(bitBoardToBoard(game.state.board)), null]
     }
 
     const isMaximizingPlayer = game.state.turn
@@ -52,7 +57,7 @@ function minimax(
         var move = possibleMoves[i]
 
         game.playMove(move)
-        let value
+        
         if (game.getTerminated()) {
             value = {
                 true: 1000 * depth,
@@ -92,7 +97,7 @@ function minimax(
 function minimaxAgent(game) {
     const startTime = Date.now()
     const minimaxResult = minimax(
-        10,
+        8,
         new MinimaxConnect4(game.getMinimaxStartState())
     )
     console.log(`best score: ${minimaxResult[0]}`)

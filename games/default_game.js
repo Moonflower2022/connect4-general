@@ -11,9 +11,7 @@ class Game {
 
     getNumPossibleMoves() {}
 
-    playMove() {
-        // need to update the attributes
-    }
+    playMove() {}
 
     getTerminated() {}
 

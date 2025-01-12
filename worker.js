@@ -1,5 +1,6 @@
 importScripts(
     "utils.js",
+    "games/bit_board.js",
     "games/connect4.js",
     "games/minimax_connect4.js",
     "games/mcts_connect4.js",

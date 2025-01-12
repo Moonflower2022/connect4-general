@@ -16,6 +16,7 @@
     <button id="end-game">End Game</button>
   </div>
   <script src="utils.js"></script>
+  <script src="games/bit_board.js"></script>
   <script src="games/connect4.js"></script>
   <script src="games/minimax_connect4.js"></script>
   <script src="games/mcts_connect4.js"></script>
@@ -27,7 +28,7 @@
   <script>
     let gameInProgress = false
     let lastPlayedP1, lastPlayedP2, botColor
-    let selectedAgent = monteCarloTreeSearchAgent
+    let selectedAgent = minimaxAgent
     function checkAndHandleGameOver() {
       if (game.getTerminated()) {
         if (game.getWinner() === null) {

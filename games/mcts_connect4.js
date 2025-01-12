@@ -11,6 +11,7 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
             lastMove: this.state.lastMove !== null ? [...this.state.lastMove] : null,
             terminated: this.state.terminated,
             winner: this.state.winner,
+            heights: [...this.state.heights],
             width: this.state.width,
             height: this.state.height,
         })
@@ -26,23 +27,6 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
         return possibleMoves
     }
 
-    getY(move) {
-        if (this.state.board.getMarker(0, move) !== null) {
-            if (this instanceof MonteCarloTreeSearchConnect4) {
-                console.warn("aorsnetnsro")
-            }
-            return -1
-        }
-        for (let y = 0; y < this.state.height; y++) {
-            if (
-                y === this.state.height - 1 ||
-                this.state.board.getMarker(y + 1, move) !== null
-            ) {
-                return y
-            }
-        }
-    }
-
     playMove(move) {
         let y = this.getY(move)
         this.state.board.setMarker(y, move, this.state.turn)
@@ -50,13 +34,12 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
             this.state.numPossibleMoves--
         }
         this.state.lastMove = [y, move]
+        this.state.heights[move]++
         
         this.state.terminated = this.checkWinNew()
 
-        if (this.state.terminated) {
-            if (this.state.numPossibleMoves !== 0) {
-                this.state.winner = this.state.turn
-            }
+        if (this.state.terminated && this.state.numPossibleMoves !== 0) {
+            this.state.winner = this.state.turn
         }
 
         this.state.turn = !this.state.turn
