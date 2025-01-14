@@ -9,11 +9,6 @@ A better connect 4 website where you can play against bots implemented with gene
 
 # todo
 
-* optimize the bit board
-  * change BigInt to a custom class holding two js ints
-  * implement or, xor, and, not, etc
-  * figure out l/r shift
-  * do like Long.add(long1, long2), Long.or(long1, long2)
 * ui
   * settings
     * thinking time for mcts
@@ -22,4 +17,5 @@ A better connect 4 website where you can play against bots implemented with gene
   * new game
   * show where your marker would be placed on the board
   * worker for no lag
+* do web worker for main website as well
 * test against <https://www.npmjs.com/package/macao>
