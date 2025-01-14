@@ -14,7 +14,7 @@
     <div id="bot-status-container">
       <div class="status-label">Monte Carlo Tree Search vs. Minimax</div>
       <div class="stat-row">
-        <span class="stat-label">Win Rate:</span>
+        <span class="stat-label">Win Rate (first player):</span>
         <span id="win-rate" class="stat-value">0%</span>
       </div>
       <div class="stat-row">
@@ -22,15 +22,15 @@
         <span id="simulation-count" class="stat-value">0</span>
       </div>
       <div class="stat-row">
-        <span class="stat-label" id="win-count-label">MCTS Score:</span>
+        <span class="stat-label" id="win-count-label">Score (first player):</span>
         <span id="win-count" class="stat-value">0</span>
       </div>
       <div class="stat-row">
-        <span class="stat-label" id="agent1-time-label">MCTS Time (s):</span>
+        <span class="stat-label" id="agent1-time-label">Time (s):</span>
         <span id="agent1-time" class="stat-value">0</span>
       </div>
       <div class="stat-row">
-        <span class="stat-label" id="agent2-time-label">Minimax Time (s):</span>
+        <span class="stat-label" id="agent2-time-label">Time (s):</span>
         <span id="agent2-time" class="stat-value">0</span>
       </div>
     </div>
@@ -82,7 +82,7 @@
       const agent2 = allAgents[agent2Index]
 
       document.getElementsByClassName("status-label")[0].innerHTML = `${agent1.name} v.s. ${agent2.name}`
-      document.getElementById("win-count-label").innerHTML = `${agent1.name} Score:`
+      document.getElementById("win-count-label").innerHTML = `${agent1.name} Score (first player):`
       document.getElementById("agent1-time-label").innerHTML = `${agent1.name} Time (s):`
       document.getElementById("agent2-time-label").innerHTML = `${agent2.name} Time (s):`
 
