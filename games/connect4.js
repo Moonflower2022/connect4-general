@@ -98,9 +98,7 @@ class Connect4 {
 
     playMove(move) {
         let y = this.getY(move)
-        if (this.state.board[y] === undefined) {
-            const aarste = 1   
-        }
+
         this.state.board[y][move] = this.state.turn
         if (y === 0) {
             this.state.numPossibleMoves--

@@ -36,7 +36,7 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
         this.state.lastMove = [y, move]
         this.state.heights[move]++
         
-        this.state.terminated = this.checkWinNew()
+        this.state.terminated = this.checkWin()
 
         if (this.state.terminated && this.state.numPossibleMoves !== 0) {
             this.state.winner = this.state.turn
@@ -55,7 +55,7 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
         return horizontalWin || verticalWin || diagonalPositiveSlopeWin || diagonalNegativeSlopeWin
     }
 
-    checkWinNew() {
+    checkWin() {
         if (this.checkConnect4()) {
             this.state.winner = this.state.turn
             return true
@@ -63,92 +63,6 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
         if (this.state.numPossibleMoves === 0) {
             return true
         }
-        return false
-    }
-
-    checkWin() {
-        if (!this.state.lastMove) return false
-
-        const [lastMoveY, lastMoveX] = this.state.lastMove
-        const center = {
-            x: lastMoveX,
-            y: lastMoveY,
-        }
-
-        // Vertical check
-        for (let i = 0; i < 4; i++) {
-            if (
-                this.inBoard(center.x, center.y - i) &&
-                this.inBoard(center.x, center.y - i + 3) &&
-                this.checkLine(
-                    this.state.board[center.y - i][center.x],
-                    this.state.board[center.y - i + 1][center.x],
-                    this.state.board[center.y - i + 2][center.x],
-                    this.state.board[center.y - i + 3][center.x]
-                )
-            ) {
-                this.state.winner = this.state.board[center.y][center.x]
-                return true
-            }
-        }
-
-        // Diagonal (negative slope)
-        for (let i = 0; i < 4; i++) {
-            if (
-                this.inBoard(center.x - i, center.y + i) &&
-                this.inBoard(center.x - i + 3, center.y + i - 3) &&
-                this.checkLine(
-                    this.state.board[center.y + i][center.x - i],
-                    this.state.board[center.y + i - 1][center.x - i + 1],
-                    this.state.board[center.y + i - 2][center.x - i + 2],
-                    this.state.board[center.y + i - 3][center.x - i + 3]
-                )
-            ) {
-                this.state.winner = this.state.board[center.y][center.x]
-                return true
-            }
-        }
-
-        // Horizontal check
-        for (let i = 0; i < 4; i++) {
-            if (
-                this.inBoard(center.x - i, center.y) &&
-                this.inBoard(center.x - i + 3, center.y) &&
-                this.checkLine(
-                    this.state.board[center.y][center.x - i],
-                    this.state.board[center.y][center.x - i + 1],
-                    this.state.board[center.y][center.x - i + 2],
-                    this.state.board[center.y][center.x - i + 3]
-                )
-            ) {
-                this.state.winner = this.state.board[center.y][center.x]
-                return true
-            }
-        }
-
-        // Diagonal (positive slope)
-        for (let i = 0; i < 4; i++) {
-            if (
-                this.inBoard(center.x - i, center.y - i) &&
-                this.inBoard(center.x - i + 3, center.y - i + 3) &&
-                this.checkLine(
-                    this.state.board[center.y - i][center.x - i],
-                    this.state.board[center.y - i + 1][center.x - i + 1],
-                    this.state.board[center.y - i + 2][center.x - i + 2],
-                    this.state.board[center.y - i + 3][center.x - i + 3]
-                )
-            ) {
-                this.state.winner = this.state.board[center.y][center.x]
-                return true
-            }
-        }
-
-        // Check for draw
-        if (this.state.numPossibleMoves === 0) {
-            this.state.winner = null
-            return true
-        }
-
         return false
     }
 
