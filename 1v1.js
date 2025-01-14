@@ -9,8 +9,10 @@ function runMatchWithDraw(agent1, agent2) {
         game.playMove(agent1Move)
         drawConnect4(game.state.board)
 
-        if (game.getTerminated() && game.getWinner() !== null) {
-            drawWinLine(game.state.winningLine)
+        if (game.getTerminated()) {
+            if (game.getWinner() !== null) {
+                drawWinLine(game.state.winningLine)
+            }
             break
         }
         const agent2Move = agent2(game)
@@ -18,8 +20,10 @@ function runMatchWithDraw(agent1, agent2) {
         game.playMove(agent2Move)
         drawConnect4(game.state.board)
 
-        if (game.getTerminated() && game.getWinner() !== null) {
-            drawWinLine(game.state.winningLine)
+        if (game.getTerminated()) {
+            if (game.getWinner() !== null) {
+                drawWinLine(game.state.winningLine)
+            }
             break
         }
     }
