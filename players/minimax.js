@@ -10,9 +10,9 @@ const boardEvaluation = [
 const bitBoardEvaluation = boardEvaluation.flat()
 
 function evaluateBoard(board) {
-    let sum = 0;
-    const height = board.length;
-    const width = board[0].length;
+    let sum = 0
+    const height = board.length
+    const width = board[0].length
 
     for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
@@ -28,7 +28,7 @@ function evaluateBoard(board) {
         }
     }
 
-    return sum;
+    return sum
 }
 
 function evaluateBitBoard(bitBoard) {
@@ -36,7 +36,7 @@ function evaluateBitBoard(bitBoard) {
 }
 
 function evaluateMask(mask) {
-    let total = 0;
+    let total = 0
     let currentBit = 1
 
     for (let i = 0; i < 32; i++) {
@@ -80,7 +80,7 @@ function minimax(
         var move = possibleMoves[i]
 
         game.playMove(move)
-        
+
         if (game.getTerminated()) {
             value = {
                 true: 1000 * depth,

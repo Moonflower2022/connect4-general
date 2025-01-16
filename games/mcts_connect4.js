@@ -8,7 +8,8 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
             board: this.state.board.copy(),
             turn: this.state.turn,
             numPossibleMoves: this.state.numPossibleMoves,
-            lastMove: this.state.lastMove !== null ? [...this.state.lastMove] : null,
+            lastMove:
+                this.state.lastMove !== null ? [...this.state.lastMove] : null,
             terminated: this.state.terminated,
             winner: this.state.winner,
             heights: [...this.state.heights],
@@ -35,7 +36,7 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
         }
         this.state.lastMove = [y, move]
         this.state.heights[move]++
-        
+
         this.state.terminated = this.checkWin()
 
         if (this.state.terminated && this.state.numPossibleMoves !== 0) {
@@ -46,13 +47,29 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
     }
 
     checkConnect4() {
-        const relevantLong = this.state.turn ? this.state.board.p1mask.long : this.state.board.p2mask.long
+        const relevantLong = this.state.turn
+            ? this.state.board.p1mask.long
+            : this.state.board.p2mask.long
 
         const horizontalWin = !Long.equal(relevantLong.and4(1), Long.zero)
-        const verticalWin = !Long.equal(relevantLong.and4(this.state.width),Long.zero)
-        const diagonalPositiveSlopeWin = !Long.equal(relevantLong.and4(this.state.width - 1), Long.zero)
-        const diagonalNegativeSlopeWin = !Long.equal(relevantLong.and4(this.state.width + 1), Long.zero)
-        return horizontalWin || verticalWin || diagonalPositiveSlopeWin || diagonalNegativeSlopeWin
+        const verticalWin = !Long.equal(
+            relevantLong.and4(this.state.width),
+            Long.zero
+        )
+        const diagonalPositiveSlopeWin = !Long.equal(
+            relevantLong.and4(this.state.width - 1),
+            Long.zero
+        )
+        const diagonalNegativeSlopeWin = !Long.equal(
+            relevantLong.and4(this.state.width + 1),
+            Long.zero
+        )
+        return (
+            horizontalWin ||
+            verticalWin ||
+            diagonalPositiveSlopeWin ||
+            diagonalNegativeSlopeWin
+        )
     }
 
     checkWin() {
@@ -74,4 +91,3 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
         return this.state.winner
     }
 }
-

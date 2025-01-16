@@ -165,4 +165,3 @@ function monteCarloTreeSearchAgent(game) {
     console.log(`best node win rate: ${result[1]}`)
     return result[0]
 }
-

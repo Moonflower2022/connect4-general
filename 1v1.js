@@ -40,7 +40,6 @@ function runMatch(agent1, agent2) {
         agent1StartTime = Date.now()
         const agent1Move = agent1(game)
         agent1SpentTime += Date.now() - agent1StartTime
-        
 
         game.playMove(agent1Move)
         if (game.getTerminated()) {
@@ -59,4 +58,9 @@ function runMatch(agent1, agent2) {
     return [game.getWinner(), agent1SpentTime / 1000, agent2SpentTime / 1000]
 }
 
-const allAgents = [monteCarloTreeSearchAgent, minimaxAgent, randomAgent, copyCatAgent]
+const allAgents = [
+    monteCarloTreeSearchAgent,
+    minimaxAgent,
+    randomAgent,
+    copyCatAgent,
+]

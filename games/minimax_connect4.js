@@ -20,16 +20,18 @@ class MinimaxConnect4 extends Connect4 {
             this.state.numPossibleMoves--
         }
         this.state.heights[move]++
-        
+
         this.state.pastMoves.push(move)
-        this.state.pastTerminateds.push(this.checkConnect4() || this.state.numPossibleMoves === 0)
+        this.state.pastTerminateds.push(
+            this.checkConnect4() || this.state.numPossibleMoves === 0
+        )
 
         if (this.getTerminated() && this.state.numPossibleMoves !== 0) {
             this.state.pastWinners.push(this.state.turn)
         } else {
             this.state.pastWinners.push(null)
         }
-        
+
         this.state.turn = !this.state.turn
     }
 

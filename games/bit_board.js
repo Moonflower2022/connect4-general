@@ -28,17 +28,22 @@ class Long {
     }
 
     static or(long1, long2) {
-        return new Long((long1.high | long2.high) >>> 0, (long1.low | long2.low) >>> 0)
+        return new Long(
+            (long1.high | long2.high) >>> 0,
+            (long1.low | long2.low) >>> 0
+        )
     }
 
     static xor(long1, long2) {
-        return new Long((long1.high ^ long2.high) >>> 0, (long1.low ^ long2.low) >>> 0)
+        return new Long(
+            (long1.high ^ long2.high) >>> 0,
+            (long1.low ^ long2.low) >>> 0
+        )
     }
 
     static equal(long1, long2) {
         return long1.high === long2.high && long1.low === long2.low
     }
-
 
     not() {
         return new Long(~this.high >>> 0, ~this.low >>> 0)
@@ -80,7 +85,7 @@ class Long {
     }
 
     toNumber() {
-        return this.high * (2 ** 32) + this.low
+        return this.high * 2 ** 32 + this.low
     }
 
     toString() {
@@ -89,8 +94,6 @@ class Long {
             .padStart(32, "0")}`
     }
 }
-
-
 
 function boardToBitBoard(board) {
     const bitBoard = new BitBoard()
@@ -175,7 +178,10 @@ class BitBoard {
     getMarker(y, x) {
         const p1maskElement = this.p1mask.get(y, x)
         const p2maskElement = this.p2mask.get(y, x)
-        if (Long.equal(p1maskElement, Long.zero) && Long.equal(p2maskElement, Long.zero)) {
+        if (
+            Long.equal(p1maskElement, Long.zero) &&
+            Long.equal(p2maskElement, Long.zero)
+        ) {
             return null
         }
         return Long.equal(p1maskElement, Long.zero) ? false : true
@@ -186,13 +192,23 @@ class BitBoard {
             throw Error("oaoaooarise")
         }
         if (color === true) {
-            if (Long.equal(this.p1mask.get(y, x), this.p1mask.getPositionLong(y, x))) {
+            if (
+                Long.equal(
+                    this.p1mask.get(y, x),
+                    this.p1mask.getPositionLong(y, x)
+                )
+            ) {
                 console.warn("eiarnto")
             }
             this.p1mask.flip(y, x)
         } else {
             // color === false
-            if (Long.equal(this.p2mask.get(y, x), this.p1mask.getPositionLong(y, x))) {
+            if (
+                Long.equal(
+                    this.p2mask.get(y, x),
+                    this.p1mask.getPositionLong(y, x)
+                )
+            ) {
                 console.warn("eiarnto")
             }
             this.p2mask.flip(y, x)
@@ -200,10 +216,14 @@ class BitBoard {
     }
 
     clear(y, x) {
-        if (Long.equal(this.p1mask.get(y, x), this.p1mask.getPositionLong(y, x))) {
+        if (
+            Long.equal(this.p1mask.get(y, x), this.p1mask.getPositionLong(y, x))
+        ) {
             this.p1mask.flip(y, x)
         }
-        if (Long.equal(this.p2mask.get(y, x), this.p1mask.getPositionLong(y, x))) {
+        if (
+            Long.equal(this.p2mask.get(y, x), this.p1mask.getPositionLong(y, x))
+        ) {
             this.p2mask.flip(y, x)
         }
     }
