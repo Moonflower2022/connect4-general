@@ -8,7 +8,7 @@ class Node {
         this.isLeaf = true
         this.children = []
         this.possibleMoves = game.getPossibleMoves()
-        this.remainingPossibleIndices = [...this.possibleMoves.keys()]
+        this.remainingPossibleIndices = Array.from(this.possibleMoves.keys())
         this.simulations = 0
         this.wins = 0
         this.moveMade = moveMade
@@ -90,9 +90,7 @@ class Node {
         }
         const ratio = this.wins / this.simulations
 
-        const bonus = Math.sqrt(
-            Math.log(this.parent.simulations) / this.simulations
-        )
+        const bonus = Math.sqrt(Math.log(this.parent.simulations) / this.simulations)
         return ratio + explorationConstant * bonus
     }
 }

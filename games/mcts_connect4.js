@@ -9,10 +9,10 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
             turn: this.state.turn,
             numPossibleMoves: this.state.numPossibleMoves,
             lastMove:
-                this.state.lastMove !== null ? [...this.state.lastMove] : null,
+                this.state.lastMove !== null ? Array.from(this.state.lastMove) : null,
             terminated: this.state.terminated,
             winner: this.state.winner,
-            heights: [...this.state.heights],
+            heights: Array.from(this.state.heights),
             width: this.state.width,
             height: this.state.height,
         })
@@ -21,7 +21,7 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
     getPossibleMoves() {
         let possibleMoves = []
         for (let x = 0; x < this.state.width; x++) {
-            if (this.state.board.getMarker(0, x) === null) {
+            if (this.state.heights[x] !== this.state.height) {
                 possibleMoves.push(x)
             }
         }
