@@ -14,11 +14,11 @@ class Node {
         this.moveMade = moveMade
     }
 
-    isFullyExpanded = () => {
+    isFullyExpanded() {
         return this.remainingPossibleIndices.length === 0
     }
 
-    chooseLeaf = () => {
+    chooseLeaf() {
         let currentNode = this
 
         while (!currentNode.isLeaf && currentNode.isFullyExpanded()) {
@@ -28,7 +28,7 @@ class Node {
         return currentNode
     }
 
-    simulate = () => {
+    simulate() {
         let copiedGame = this.game.copy()
         while (copiedGame.getTerminated() === false) {
             let moves = copiedGame.getPossibleMoves()
@@ -37,7 +37,7 @@ class Node {
         return copiedGame.getWinner()
     }
 
-    expand = (expansionCount) => {
+    expand(expansionCount) {
         if (this.game.getTerminated() !== false) {
             return this
         } else {
@@ -48,7 +48,7 @@ class Node {
         }
     }
 
-    addChild = () => {
+    addChild() {
         let copiedGame = this.game.copy()
         let randomIndex = Math.floor(
             Math.random() * this.remainingPossibleIndices.length
@@ -77,14 +77,14 @@ class Node {
         }
     }
 
-    bestUTC = () => {
+    bestUTC() {
         return this.children.reduce(
             (max, curr, i) => (curr.UTC() > max.UTC() ? curr : max),
             this.children[0]
         )
     }
 
-    UTC = () => {
+    UTC() {
         if (this.simulations === 0) {
             return 1000000
         }
@@ -108,7 +108,7 @@ function monteCarloTreeSearchTime(
         let node = root.chooseLeaf()
         let simulationNode = node.expand(expansionCount)
         for (let j = 0; j < simulationCount; j++) {
-            winningColor = simulationNode.simulate()
+            const winningColor = simulationNode.simulate()
             simulationNode.backpropogate(winningColor)
         }
         i++
@@ -137,7 +137,7 @@ function monteCarloTreeSearchIterations(
         let node = root.chooseLeaf()
         let simulationNode = node.expand(expansionCount)
         for (let j = 0; j < simulationCount; j++) {
-            winningColor = simulationNode.simulate()
+            const winningColor = simulationNode.simulate()
             simulationNode.backpropogate(winningColor)
         }
     }

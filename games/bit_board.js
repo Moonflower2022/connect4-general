@@ -10,6 +10,17 @@ function makeLong(number) {
     return new Long(high, low)
 }
 
+function maskToBoard(mask) {
+    const board = []
+    for (let y = 0; y < mask.height; y++) {
+        board.push([])
+        for (let x = 0; x < mask.width; x++) {
+            board[y].push(Long.equal(mask.get(y, x), mask.getPositionLong(y, x)) ? 1 : 0)
+        }
+    }
+    return board
+}
+
 class Long {
     static zero = new Long(0, 0)
     static one = new Long(0, 1)
@@ -24,7 +35,7 @@ class Long {
     }
 
     static and(long1, long2) {
-        return new Long(long1.high & long2.high, long1.low & long2.low)
+        return new Long((long1.high & long2.high) >>> 0, (long1.low & long2.low) >>> 0)
     }
 
     static or(long1, long2) {

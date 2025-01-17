@@ -37,7 +37,7 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
         this.state.lastMove = [y, move]
         this.state.heights[move]++
 
-        this.state.terminated = this.checkWin()
+        this.state.terminated = this.checkConnect4() || this.state.numPossibleMoves === 0
 
         if (this.state.terminated && this.state.numPossibleMoves !== 0) {
             this.state.winner = this.state.turn
@@ -70,17 +70,6 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
             diagonalPositiveSlopeWin ||
             diagonalNegativeSlopeWin
         )
-    }
-
-    checkWin() {
-        if (this.checkConnect4()) {
-            this.state.winner = this.state.turn
-            return true
-        }
-        if (this.state.numPossibleMoves === 0) {
-            return true
-        }
-        return false
     }
 
     getTerminated() {

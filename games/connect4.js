@@ -229,12 +229,7 @@ class Connect4 {
         }
         this.state.pastWinners.push(null)
 
-        // Check for draw
-        if (this.state.numPossibleMoves === 0) {
-            return true
-        }
-
-        return false
+        return this.state.numPossibleMoves === 0
     }
 
     getTerminated() {
