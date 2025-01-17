@@ -28,7 +28,7 @@
   <script>
     let gameInProgress = false
     let lastPlayedP1, lastPlayedP2, botColor
-    let selectedAgent = minimaxAgent
+    let selectedAgent = monteCarloTreeSearchAgent
     function checkAndHandleGameOver() {
       if (game.getTerminated()) {
         if (game.getWinner() === null) {
