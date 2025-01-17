@@ -6,7 +6,7 @@ class MinimaxConnect4 extends Connect4 {
     getPossibleMoves() {
         let possibleMoves = []
         for (let x = 0; x < this.state.width; x++) {
-            if (this.state.board.getMarker(0, x) === null) {
+            if (this.state.heights[x] !== this.state.height) {
                 possibleMoves.push(x)
             }
         }
@@ -56,15 +56,15 @@ class MinimaxConnect4 extends Connect4 {
 
         const horizontalWin = !Long.equal(relevantLong.and4(1), Long.zero)
         const verticalWin = !Long.equal(
-            relevantLong.and4(this.state.width),
+            relevantLong.and4((this.state.width + 1)),
             Long.zero
         )
         const diagonalPositiveSlopeWin = !Long.equal(
-            relevantLong.and4(this.state.width - 1),
+            relevantLong.and4((this.state.width + 1) - 1),
             Long.zero
         )
         const diagonalNegativeSlopeWin = !Long.equal(
-            relevantLong.and4(this.state.width + 1),
+            relevantLong.and4((this.state.width + 1) + 1),
             Long.zero
         )
         return (

@@ -131,7 +131,7 @@ function monteCarloTreeSearchIterations(
     simulationCount,
     expansionCount
 ) {
-    let root = new Node(new MonteCarloTreeSearchConnect4(state), null, null)
+    root = new Node(new MonteCarloTreeSearchConnect4(state), null, null)
     let start = Date.now()
     for (let i = 0; i < iterations; i++) {
         let node = root.chooseLeaf()

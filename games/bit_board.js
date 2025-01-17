@@ -138,7 +138,7 @@ class Mask {
     }
 
     setStartState(height, width) {
-        this.long = makeLong(0)
+        this.long = new Long(0, 0)
         this.height = height
         this.width = width
     }
@@ -148,7 +148,7 @@ class Mask {
     }
 
     getPositionLong(y, x) {
-        return Long.one.shiftLeft(y * this.width + x)
+        return Long.one.shiftLeft(y * (this.width + 1) + x)
     }
 
     get(y, x) {

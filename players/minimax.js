@@ -39,17 +39,25 @@ function evaluateMask(mask) {
     let total = 0
     let currentBit = 1
 
+    let actualIndex = 0
+
     for (let i = 0; i < 32; i++) {
+        if (i % mask.width !== 0) {
+            actualIndex++
+        }
         if (mask.long.low & currentBit) {
-            total += bitBoardEvaluation[i]
+            total += bitBoardEvaluation[actualIndex]
         }
         currentBit <<= 1
     }
 
     currentBit = 1
-    for (let i = 32; i < 42; i++) {
+    for (let i = 32; i < 48; i++) {
+        if (i % mask.width !== 0) {
+            actualIndex++
+        }
         if (mask.long.high & currentBit) {
-            total += bitBoardEvaluation[i]
+            total += bitBoardEvaluation[actualIndex]
         }
         currentBit <<= 1
     }

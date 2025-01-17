@@ -53,15 +53,15 @@ class MonteCarloTreeSearchConnect4 extends Connect4 {
 
         const horizontalWin = !Long.equal(relevantLong.and4(1), Long.zero)
         const verticalWin = !Long.equal(
-            relevantLong.and4(this.state.width),
+            relevantLong.and4((this.state.width + 1)),
             Long.zero
         )
         const diagonalPositiveSlopeWin = !Long.equal(
-            relevantLong.and4(this.state.width - 1),
+            relevantLong.and4((this.state.width + 1) - 1),
             Long.zero
         )
         const diagonalNegativeSlopeWin = !Long.equal(
-            relevantLong.and4(this.state.width + 1),
+            relevantLong.and4((this.state.width + 1) + 1),
             Long.zero
         )
         return (
