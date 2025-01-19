@@ -34,6 +34,8 @@
       <span id="agent2-time" class="stat-value">0</span>
     </div>
   </div>
+  <button id="start-simulation">Start Simulation</button>
+  <button id="start-first">Start First Game</button>
   <script src="utils.js"></script>
   <script src="games/bit_board.js"></script>
   <script src="games/connect4.js"></script>
@@ -75,8 +77,8 @@
       }
     }
 
-    const agent1Index = 1
-    const agent2Index = 1
+    const agent1Index = 0
+    const agent2Index = 0
 
     const agent1 = allAgents[agent1Index]
     const agent2 = allAgents[agent2Index]
@@ -86,7 +88,7 @@
     document.getElementById("agent1-time-label").innerHTML = `${agent1.name} Time (s):`
     document.getElementById("agent2-time-label").innerHTML = `${agent2.name} Time (s):`
 
-    runMatchWithDraw(agent1, agent2)
+    document.getElementById("start-first").onclick = () => {runMatchWithDraw(agent1, agent2)}
 
     const winCountDiv = document.getElementById("win-count")
     const simulationCountDiv = document.getElementById("simulation-count")
@@ -97,12 +99,15 @@
     var worker
     initWebWorker()
 
-    const iterations = 1000
-    let currentWins = 0
-
-    for (let i = 0; i < iterations; i++) {
-      worker.postMessage([agent1Index, agent2Index])
+    document.getElementById("start-simulation").onclick = () => {
+      const iterations = 1000
+      let currentWins = 0
+  
+      for (let i = 0; i < iterations; i++) {
+        worker.postMessage([agent1Index, agent2Index])
+      }
     }
+
   </script>
 </body>
 
