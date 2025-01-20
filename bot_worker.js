@@ -13,14 +13,15 @@ importScripts(
 )
 
 onmessage = function (message) {
-    const [selectedAgentIndex, pastMoves, dimensions] = message.data
+    const [selectedAgentIndex, setting, pastMoves, dimensions] = message.data
+
     const game = new Connect4(dimensions)
     game.setStartState()
     for (const pastMove of pastMoves) {
         game.playMove(pastMove)
     }
 
-    const workerResult = allAgents[selectedAgentIndex](game)
+    const workerResult = allAgents[selectedAgentIndex](game, setting)
 
     this.postMessage(workerResult)
 }

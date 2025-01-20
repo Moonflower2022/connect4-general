@@ -9,11 +9,21 @@
 </head>
 
 <body>
-  <div id="game-board"></div>
   <div class="controls-container">
     <button id="start-as-first">Start As First</button>
     <button id="start-as-second">Start As Second</button>
     <button id="end-game">End Game</button>
+  </div>
+  <div id="game-board"></div>
+  <div class="controls-container">
+    <select name="select-bot" id="select-bot" onchange="handleSelectBotChange()">
+      <option value="0">monte carlo tree search (time)</option>
+      <option value="1">monte carlo tree search (iterations)</option>
+      <option value="2">minimax</option>
+      <option value="3">random</option>
+      <option value="4">copycat</option>
+    </select>
+    <select name="bot-settings" id="bot-settings"></select>
   </div>
   <script src="utils.js"></script>
   <script src="games/bit_board.js"></script>
@@ -37,8 +47,6 @@
     let gameInProgress = false
     let lastTwoPlayed = []
     let botColor
-    let selectedAgentIndex = 0
-    let selectedAgent = allAgents[selectedAgentIndex]
     let turn = true
     const dimensions = { height: 6, width: 7 }
     function checkAndHandleGameOver() {
@@ -69,16 +77,37 @@
     }
     function handleBotMove() {
       if (window.Worker) {
-        worker.postMessage([selectedAgentIndex, game.state.pastMoves, dimensions])
+        worker.postMessage([parseInt(selectBotDropdown.value), parseInt(botSettingDropdown.value), game.state.pastMoves, dimensions])
       } else {
         handleMove(selectedAgent(game))
         if (checkAndHandleGameOver()) return
       }
     }
+    function handleSelectBotChange() {
+      let options = []
+      if (selectBotDropdown.value === "0") {
+        for (let i = 250; i <= 2000; i += 250) {
+          options.push(i)
+        }
+      } else if (selectBotDropdown.value === "1") {
+        options.push(5000)
+        for (let i = 10000; i <= 200000; i += 10000) {
+          options.push(i)
+        }
+      } else if (selectBotDropdown.value === "2") {
+        for (let i = 1; i <= 12; i++) {
+          options.push(i)
+        }
+      }
+      updateSelect(botSettingDropdown, options)
+    }
     function startGame() {
       startAsFirstButton.disabled = true
       startAsSecondButton.disabled = true
+      selectBotDropdown.disabled = true
+      botSettingDropdown.disabled = true
       endGameButton.disabled = false
+
       gameInProgress = true
       game = new Connect4(dimensions)
       game.setStartState()
@@ -90,6 +119,8 @@
     function endGame() {
       startAsFirstButton.disabled = false
       startAsSecondButton.disabled = false
+      selectBotDropdown.disabled = false
+      botSettingDropdown.disabled = false
       endGameButton.disabled = true
       drawConnect4(game.state.board, false)
       turn = true
@@ -97,6 +128,14 @@
     const startAsFirstButton = document.getElementById("start-as-first")
     const startAsSecondButton = document.getElementById("start-as-second")
     const endGameButton = document.getElementById("end-game")
+    const selectBotDropdown = document.getElementById("select-bot")
+    const botSettingDropdown = document.getElementById("bot-settings")
+
+    let options = []
+    for (let i = 250; i <= 2000; i += 250) {
+      options.push(i)
+    }
+    updateSelect(botSettingDropdown, options)
 
     endGameButton.disabled = true
     startAsFirstButton.onclick = function () {

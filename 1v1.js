@@ -59,7 +59,8 @@ function runMatch(agent1, agent2) {
 }
 
 const allAgents = [
-    monteCarloTreeSearchAgent,
+    monteCarloTreeSearchTimeAgent,
+    monteCarloTreeSearchIterationsAgent,
     minimaxAgent,
     randomAgent,
     copyCatAgent,

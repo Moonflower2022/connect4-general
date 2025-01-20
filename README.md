@@ -10,12 +10,6 @@ A better connect 4 website where you can play against bots implemented with gene
 # todo
 
 * ui
-  * settings
-    * thinking time for mcts
-    * search depth for minimax
   * save state
   * new game
   * show where your marker would be placed on the board
-  * worker for no lag
-* do web worker for main website as well
-* test against <https://www.npmjs.com/package/macao>

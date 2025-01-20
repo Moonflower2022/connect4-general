@@ -125,10 +125,10 @@ function minimax(
     return [bestMoveValue, bestMove]
 }
 
-function minimaxAgent(game) {
+function minimaxAgent(game, depth) {
     const startTime = Date.now()
     const minimaxResult = minimax(
-        10,
+        depth,
         new MinimaxConnect4(game.getMinimaxStartState())
     )
     console.log(`best score: ${minimaxResult[0]}`)

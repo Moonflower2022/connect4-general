@@ -66,3 +66,7 @@ body {
 .last-played {
     border: 3px solid #4caf50;
 }
+
+.controls-container {
+    margin-bottom: 20px;
+}

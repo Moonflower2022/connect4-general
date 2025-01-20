@@ -39,10 +39,10 @@ function drawConnect4(
         for (let x in row) {
             const cell = row[x]
             const cellDiv = document.createElement("div")
-            if (hoverEffect && cell === null) {
+            if (hoverEffect) {
                 cellDiv.classList.add("hover-effect")
             }
-            if (onclick && cell === null) {
+            if (onclick) {
                 cellDiv.onclick = () => {
                     onclick(x)
                 }
@@ -66,4 +66,15 @@ function drawConnect4(
             gameBoard.appendChild(cellDiv)
         }
     }
+}
+
+function updateSelect(selectElement, newOptions) {
+    selectElement.innerHTML = ''
+
+    newOptions.forEach(option => {
+        const newOption = document.createElement('option');
+        newOption.value = option;
+        newOption.textContent = option;
+        selectElement.appendChild(newOption);
+    });
 }
