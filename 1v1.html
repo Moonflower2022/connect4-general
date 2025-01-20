@@ -50,7 +50,7 @@
   <script>
     function initWebWorker() {
       if (window.Worker) {
-        worker = new Worker("worker.js")
+        worker = new Worker("1v1_worker.js")
 
         worker.onmessage = function (message) {
           const [result, agent1SpentTime, agent2SpentTime] = message.data
@@ -78,7 +78,7 @@
     }
 
     const agent1Index = 0
-    const agent2Index = 0
+    const agent2Index = 1
 
     const agent1 = allAgents[agent1Index]
     const agent2 = allAgents[agent2Index]

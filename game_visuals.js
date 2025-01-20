@@ -29,8 +29,7 @@ function drawConnect4(
     board,
     hoverEffect = true,
     onclick = false,
-    lastPlayedP1 = undefined,
-    lastPlayedP2 = undefined
+    lastTwoPlayed = undefined,
 ) {
     const gameBoard = document.getElementById("game-board")
     gameBoard.innerHTML = ""
@@ -55,12 +54,12 @@ function drawConnect4(
                 cellDiv.classList.add("yellow")
             }
             if (
-                (lastPlayedP1 &&
-                    parseInt(y) === lastPlayedP1[0] &&
-                    parseInt(x) === lastPlayedP1[1]) ||
-                (lastPlayedP2 &&
-                    parseInt(y) === lastPlayedP2[0] &&
-                    parseInt(x) === lastPlayedP2[1])
+                lastTwoPlayed && ((lastTwoPlayed[0] &&
+                    parseInt(y) === lastTwoPlayed[0][0] &&
+                    parseInt(x) === lastTwoPlayed[0][1]) ||
+                (lastTwoPlayed[1] &&
+                    parseInt(y) === lastTwoPlayed[1][0] &&
+                    parseInt(x) === lastTwoPlayed[1][1]))
             ) {
                 cellDiv.classList.add("last-played")
             }

@@ -25,10 +25,22 @@
   <script src="players/random.js"></script>
   <script src="players/copy_cat.js"></script>
   <script src="game_visuals.js"></script>
+  <script src="1v1.js"></script>
   <script>
+    function initWorker() {
+      if (window.Worker) {
+        worker = new Worker("bot_worker.js")
+      } else {
+        console.log("Your browser does not support web workers, defaulting to running script on main thread.")
+      }
+    }
     let gameInProgress = false
-    let lastPlayedP1, lastPlayedP2, botColor
-    let selectedAgent = monteCarloTreeSearchAgent
+    let lastTwoPlayed = []
+    let botColor
+    let selectedAgentIndex = 0
+    let selectedAgent = allAgents[selectedAgentIndex]
+    let turn = true
+    const dimensions = { height: 6, width: 7 }
     function checkAndHandleGameOver() {
       if (game.getTerminated()) {
         if (game.getWinner() === null) {
@@ -46,35 +58,33 @@
       }
       return false
     }
-    function playerMove(move) {
-      if (botColor === true) {
-        lastPlayedP2 = [game.getY(move), move]
-      } else { // botColor === false
-        lastPlayedP1 = [game.getY(move), move]
+    function handleMove(move) {
+      lastTwoPlayed.push([game.getY(move), move])
+      if (lastTwoPlayed.length === 3) {
+        lastTwoPlayed.shift()
       }
       game.playMove(move)
-      drawConnect4(game.state.board, true, onclick, lastPlayedP1, lastPlayedP2)
+      drawConnect4(game.state.board, true, onclick, lastTwoPlayed)
+      turn = !turn
     }
-    function botMove() {
-      const botMove = selectedAgent(game)
-      if (botColor === true) {
-        lastPlayedP1 = [game.getY(botMove), botMove]
-      } else { // botColor === false
-        lastPlayedP2 = [game.getY(botMove), botMove]
+    function handleBotMove() {
+      if (window.Worker) {
+        worker.postMessage([selectedAgentIndex, game.state.pastMoves, dimensions])
+      } else {
+        handleMove(selectedAgent(game))
+        if (checkAndHandleGameOver()) return
       }
-      game.playMove(botMove)
-      drawConnect4(game.state.board, true, onclick, lastPlayedP1, lastPlayedP2)
     }
     function startGame() {
       startAsFirstButton.disabled = true
       startAsSecondButton.disabled = true
       endGameButton.disabled = false
       gameInProgress = true
-      game = new Connect4({ height: 6, width: 7 })
+      game = new Connect4(dimensions)
       game.setStartState()
       drawConnect4(game.state.board, true, onclick)
       if (botColor === true) {
-        botMove(botColor)
+        handleBotMove()
       }
     }
     function endGame() {
@@ -82,6 +92,7 @@
       startAsSecondButton.disabled = false
       endGameButton.disabled = true
       drawConnect4(game.state.board, false)
+      turn = true
     }
     const startAsFirstButton = document.getElementById("start-as-first")
     const startAsSecondButton = document.getElementById("start-as-second")
@@ -100,11 +111,17 @@
 
     function onclick(x) {
       const move = parseInt(x)
-      if (game.canPlayMove(move)) {
-        playerMove(move)
+      if (game.canPlayMove(move) && turn === !botColor) {
+        handleMove(move)
         if (checkAndHandleGameOver()) return
+        handleBotMove()
       }
-      botMove()
+    }
+    var worker
+    initWorker()
+    worker.onmessage = function (message) {
+      const move = message.data
+      handleMove(move)
       if (checkAndHandleGameOver()) return
     }
   </script>

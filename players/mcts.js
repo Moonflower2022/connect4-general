@@ -154,9 +154,20 @@ function monteCarloTreeSearchIterations(
 }
 
 function monteCarloTreeSearchAgent(game) {
-    const result = monteCarloTreeSearchIterations(
+    const result = monteCarloTreeSearchTime(
         game.getMonteCarloTreeSearchStartState(),
-        50000,
+        1,
+        1,
+        1
+    )
+    console.log(`best node win rate: ${result[1]}`)
+    return result[0]
+}
+
+function monteCarloTreeSearchWorker(startState) {
+    const result = monteCarloTreeSearchTime(
+        startState,
+        1,
         1,
         1
     )
