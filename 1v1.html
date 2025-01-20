@@ -78,7 +78,9 @@
     }
 
     const agent1Index = 0
-    const agent2Index = 1
+    const agent1Setting = 100
+    const agent2Index = 0
+    const agent2Setting = 150
 
     const agent1 = allAgents[agent1Index]
     const agent2 = allAgents[agent2Index]
@@ -88,7 +90,7 @@
     document.getElementById("agent1-time-label").innerHTML = `${agent1.name} Time (s):`
     document.getElementById("agent2-time-label").innerHTML = `${agent2.name} Time (s):`
 
-    document.getElementById("start-first").onclick = () => {runMatchWithDraw(agent1, agent2)}
+    document.getElementById("start-first").onclick = () => {runMatchWithDraw(agent1, agent1Setting, agent2, agent2Setting)}
 
     const winCountDiv = document.getElementById("win-count")
     const simulationCountDiv = document.getElementById("simulation-count")
@@ -104,7 +106,7 @@
       let currentWins = 0
   
       for (let i = 0; i < iterations; i++) {
-        worker.postMessage([agent1Index, agent2Index])
+        worker.postMessage([agent1Index, agent1Setting, agent2Index, agent2Setting])
       }
     }
 

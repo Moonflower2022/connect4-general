@@ -13,10 +13,11 @@ importScripts(
 )
 
 onmessage = function (message) {
-    console.log = () => {}
+    console.log = () => {} // lol
+    const [agent1Index, agent1Setting, agent2Index, agent2Setting] = message.data
     const workerResult = runMatch(
-        allAgents[message.data[0]],
-        allAgents[message.data[1]]
+        allAgents[agent1Index], agent1Setting,
+        allAgents[agent2Index], agent2Setting
     )
 
     this.postMessage(workerResult)
